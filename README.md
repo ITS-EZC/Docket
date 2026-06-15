@@ -159,6 +159,6 @@ Being explicit, because the distinction matters:
  
 ## About
  
-Built as a proposed module for Fed10's regulatory-intelligence platform — a demonstration that notice-and-comment rulemaking is automatable with the same impact-based reasoning Fed10 brings to legislation.
+Built by Emeric Chang as a proposed module for Fed10's regulatory-intelligence platform — a demonstration that notice-and-comment rulemaking is automatable with the same impact-based reasoning Fed10 brings to legislation.
  
 The premise, in one line: *Congress is watched. The agencies are where the rules actually get written — and the comment window is the moment to act.*
