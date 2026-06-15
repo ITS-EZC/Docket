@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docket — Federal rulemaking, watched and answered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16181D;
+    --raised:#1E2127;
+    --card:#1E222A;
+    --hair:#2D323D;
+    --hair-strong:#3A4150;
+    --paper:#F4F1E8;
+    --paper-ink:#1C1A14;
+    --text:#E7E4DB;
+    --text-dim:#9C988D;
+    --text-faint:#6E6B62;
+    --oxblood:#C24A45;
+    --oxblood-deep:#8B2E2E;
+    --oxblood-bg:#2A1A1B;
+    --brass:#CA9B3D;
+    --brass-dim:#8A6E2C;
+    --slate:#5E83A6;
+    --slate-bg:#1A222C;
+    --green:#6FA56A;
+    --r:4px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:'Public Sans',system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 18% -5%, rgba(202,155,61,0.05), transparent 38%),
+      radial-gradient(circle at 92% 0%, rgba(94,131,166,0.045), transparent 35%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  .mono{font-family:'Spline Sans Mono',monospace;font-variant-ligatures:none}
+  .caslon{font-family:'Libre Caslon Text',Georgia,serif}
+
+  /* ---------- Masthead ---------- */
+  header{border-bottom:1px solid var(--hair);background:linear-gradient(180deg,rgba(30,33,39,0.6),transparent)}
+  .masthead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:30px 0 26px;flex-wrap:wrap}
+  .brandblock{display:flex;align-items:flex-end;gap:18px}
+  .fed{display:flex;flex-direction:column;gap:3px;padding-bottom:6px}
+  .fed-mark{font-family:'Spline Sans Mono',monospace;font-weight:600;font-size:12px;letter-spacing:0.22em;color:var(--brass);text-transform:uppercase}
+  .fed-sub{font-size:10.5px;letter-spacing:0.14em;color:var(--text-faint);text-transform:uppercase}
+  .divider-v{width:1px;align-self:stretch;background:var(--hair-strong);margin:2px 0}
+  .module h1{font-family:'Libre Caslon Display',Georgia,serif;font-weight:400;font-size:46px;line-height:0.92;letter-spacing:-0.01em;color:var(--text)}
+  .module .tag{font-size:13px;color:var(--text-dim);margin-top:8px;letter-spacing:0.01em}
+  .status{display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--hair);border-radius:var(--r);background:var(--raised);align-self:center}
+  .pulse{width:8px;height:8px;border-radius:50%;background:var(--brass);position:relative;flex:none}
+  .pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--brass)}
+  .status .mono{font-size:11.5px;color:var(--text-dim);letter-spacing:0.03em}
+  .status b{color:var(--text);font-weight:600}
+  @media (prefers-reduced-motion: no-preference){
+    .pulse{animation:beat 2.4s ease-in-out infinite}
+    .pulse::after{animation:ring 2.4s ease-out infinite}
+    @keyframes beat{0%,100%{opacity:1}50%{opacity:0.55}}
+    @keyframes ring{0%{transform:scale(0.6);opacity:0.8}100%{transform:scale(1.7);opacity:0}}
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section{padding:34px 0}
+  .sec-rule{border-top:1px solid var(--hair)}
+  .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .eyebrow .num{font-family:'Spline Sans Mono',monospace;font-size:11px;font-weight:600;color:var(--brass);letter-spacing:0.1em}
+  .eyebrow h2{font-family:'Libre Caslon Text',Georgia,serif;font-weight:400;font-size:21px;color:var(--text);letter-spacing:0.01em}
+  .eyebrow .line{flex:1;height:1px;background:var(--hair)}
+  .eyebrow .meta{font-size:12px;color:var(--text-faint);letter-spacing:0.02em}
+
+  /* ---------- Client profile ---------- */
+  .profile{background:var(--card);border:1px solid var(--hair);border-radius:var(--r);padding:4px}
+  .profile-inner{border:1px solid var(--hair);border-radius:2px;padding:22px 24px}
+  .profile-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;gap:16px;flex-wrap:wrap}
+  .profile-head .who{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-faint)}
+  .edit-btn{background:none;border:none;color:var(--brass);font-family:'Public Sans';font-size:12.5px;cursor:pointer;letter-spacing:0.02em;padding:2px 0}
+  .edit-btn:hover{color:var(--text)}
+  .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+  .field label{display:block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+  .field .val{font-size:15px;color:var(--text);line-height:1.5}
+  .field.full{grid-column:1/-1}
+  .field input,.field textarea{width:100%;background:var(--ink);border:1px solid var(--hair-strong);border-radius:3px;color:var(--text);font-family:'Public Sans';font-size:14px;padding:9px 11px;line-height:1.5;resize:vertical}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--brass-dim);box-shadow:0 0 0 2px rgba(202,155,61,0.15)}
+  .hidden{display:none !important}
+
+  /* ---------- Docket feed ---------- */
+  .feed{display:flex;flex-direction:column;gap:18px}
+  .docket{background:var(--card);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+  .docket:hover{border-color:var(--hair-strong)}
+  .docket.flagged{border-color:rgba(194,74,69,0.4)}
+  .dk-top{padding:20px 24px 18px;display:grid;grid-template-columns:1fr auto;gap:18px}
+  .dk-main{min-width:0}
+  .agency-row{display:flex;align-items:center;gap:10px;margin-bottom:11px;flex-wrap:wrap}
+  .agency{font-family:'Spline Sans Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.08em;padding:3px 8px;border-radius:3px;text-transform:uppercase}
+  .ag-ftc{background:var(--slate-bg);color:#86abce;border:1px solid #2c4257}
+  .ag-sec{background:#231d2c;color:#a98fc9;border:1px solid #3d3350}
+  .ag-fda{background:#1a2620;color:#7bb58a;border:1px solid #2c4738}
+  .ag-fcc{background:#2a2218;color:#cca766;border:1px solid #4a3c22}
+  .ag-cfpb{background:#26201d;color:#cc9b86;border:1px solid #4a392c}
+  .docket-id{font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:var(--text-faint);letter-spacing:0.02em}
+  .cfr{font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:var(--text-faint)}
+  .dot-sep{color:var(--hair-strong)}
+  .dk-title{font-family:'Libre Caslon Text',Georgia,serif;font-size:19px;font-weight:400;line-height:1.28;color:var(--text);margin-bottom:9px}
+  .dk-sum{font-size:13.5px;color:var(--text-dim);line-height:1.55;max-width:62ch}
+  /* deadline stamp */
+  .stamp{align-self:start;text-align:center;border:1.5px solid var(--oxblood-deep);border-radius:3px;padding:8px 13px 9px;background:var(--oxblood-bg);min-width:96px;transform:rotate(0.4deg)}
+  .stamp .lbl{font-family:'Spline Sans Mono',monospace;font-size:8.5px;letter-spacing:0.13em;color:var(--oxblood);text-transform:uppercase;margin-bottom:3px}
+  .stamp .days{font-family:'Libre Caslon Display',Georgia,serif;font-size:30px;line-height:0.9;color:var(--oxblood)}
+  .stamp .unit{font-family:'Spline Sans Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--oxblood);text-transform:uppercase;margin-top:2px}
+  .stamp .date{font-family:'Spline Sans Mono',monospace;font-size:9.5px;color:var(--text-faint);margin-top:6px;padding-top:6px;border-top:1px solid var(--hair)}
+  .stamp.soon{border-color:var(--oxblood)}
+  .stamp.calm{border-color:var(--hair-strong);background:var(--raised)}
+  .stamp.calm .lbl,.stamp.calm .days,.stamp.calm .unit{color:var(--text-dim)}
+  /* action bar */
+  .dk-act{border-top:1px solid var(--hair);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:rgba(0,0,0,0.12)}
+  .dk-act .hint{font-size:12px;color:var(--text-faint)}
+  .btn{font-family:'Public Sans';font-weight:600;font-size:13px;letter-spacing:0.02em;padding:9px 16px;border-radius:3px;border:1px solid var(--hair-strong);background:var(--raised);color:var(--text);cursor:pointer;transition:all .16s;white-space:nowrap}
+  .btn:hover{border-color:var(--brass-dim);color:var(--brass)}
+  .btn:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+  .btn-primary{background:var(--oxblood-deep);border-color:var(--oxblood-deep);color:#fbeeec}
+  .btn-primary:hover{background:var(--oxblood);border-color:var(--oxblood);color:#fff}
+  .btn[disabled]{opacity:0.5;cursor:not-allowed}
+  .btn-ghost{background:none;border-color:var(--hair-strong)}
+
+  /* analysis panel */
+  .analysis{border-top:1px solid var(--hair);padding:0 24px;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+  .analysis.open{max-height:1400px;padding:20px 24px 22px}
+  .verdict{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .sev{font-family:'Spline Sans Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:3px}
+  .sev-critical{background:var(--oxblood-deep);color:#fbeeec}
+  .sev-high{background:#3a1f1f;color:var(--oxblood);border:1px solid var(--oxblood-deep)}
+  .sev-moderate{background:#2a2218;color:var(--brass);border:1px solid var(--brass-dim)}
+  .sev-low{background:var(--slate-bg);color:var(--slate);border:1px solid #2c4257}
+  .sev-none{background:var(--raised);color:var(--text-dim);border:1px solid var(--hair-strong)}
+  .verdict .vline{font-family:'Libre Caslon Text',Georgia,serif;font-style:italic;font-size:16px;color:var(--text)}
+  .an-block{margin-bottom:14px}
+  .an-block h4{font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px;font-weight:600}
+  .an-reasons{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .an-reasons li{font-size:13.5px;line-height:1.5;color:var(--text);padding-left:18px;position:relative}
+  .an-reasons li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--oxblood);border-radius:1px}
+  .provision{font-size:13.5px;color:var(--text);background:var(--ink);border-left:2px solid var(--brass-dim);padding:10px 14px;border-radius:0 3px 3px 0}
+  .provision .mono{font-size:12px;color:var(--brass);display:block;margin-bottom:3px}
+
+  /* loading shimmer */
+  .loading{display:flex;align-items:center;gap:11px;color:var(--text-dim);font-size:13px;padding:6px 0}
+  .spin{width:14px;height:14px;border:2px solid var(--hair-strong);border-top-color:var(--brass);border-radius:50%}
+  @media (prefers-reduced-motion: no-preference){.spin{animation:sp .7s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}}
+  .err{font-size:13px;color:var(--oxblood);background:var(--oxblood-bg);border:1px solid var(--oxblood-deep);padding:11px 14px;border-radius:3px;line-height:1.5}
+
+  /* ---------- Comment document (parchment) ---------- */
+  .doc-wrap{margin-top:18px}
+  .document{background:var(--paper);color:var(--paper-ink);border-radius:3px;padding:34px 40px 30px;box-shadow:0 18px 50px rgba(0,0,0,0.5),0 2px 0 rgba(255,255,255,0.04);font-family:'Public Sans';position:relative}
+  .document::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--oxblood-deep);border-radius:3px 0 0 3px}
+  .doc-hd{border-bottom:1.5px solid #d8d2c2;padding-bottom:16px;margin-bottom:18px}
+  .doc-hd .re{font-family:'Spline Sans Mono',monospace;font-size:11px;color:#6b6455;letter-spacing:0.04em;line-height:1.7}
+  .doc-hd .re b{color:#2a2519}
+  .document h3{font-family:'Libre Caslon Display',Georgia,serif;font-weight:400;font-size:23px;color:#1c1a14;margin:0 0 4px;line-height:1.1}
+  .doc-body{font-size:14px;line-height:1.72;color:#2c2820}
+  .doc-body p{margin:0 0 13px}
+  .doc-body h5{font-family:'Libre Caslon Text',serif;font-weight:700;font-size:14.5px;color:#1c1a14;margin:18px 0 8px;letter-spacing:0.01em}
+  .doc-body strong{color:#1c1a14}
+  .doc-body em{font-style:italic}
+  .doc-acts{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .doc-acts .btn{background:rgba(0,0,0,0.04);border-color:#cfc8b7;color:#4a4434}
+  .doc-acts .btn:hover{border-color:var(--oxblood-deep);color:var(--oxblood-deep)}
+
+  /* ---------- Fed10 integration zone ---------- */
+  .integ{background:linear-gradient(180deg,rgba(202,155,61,0.05),transparent);border:1px solid var(--brass-dim);border-radius:var(--r);padding:26px 28px;position:relative}
+  .integ-tag{position:absolute;top:-9px;left:22px;background:var(--ink);padding:0 10px;font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--brass)}
+  .integ h3{font-family:'Libre Caslon Text',serif;font-weight:400;font-size:19px;margin-bottom:6px}
+  .integ p.lead{font-size:13.5px;color:var(--text-dim);margin-bottom:22px;max-width:70ch}
+  .hooks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .hook{background:var(--card);border:1px solid var(--hair);border-radius:3px;padding:16px 17px;display:flex;flex-direction:column;gap:9px}
+  .hook .hk-icon{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--brass);letter-spacing:0.08em}
+  .hook h4{font-size:14px;font-weight:600;color:var(--text)}
+  .hook p{font-size:12.5px;color:var(--text-dim);line-height:1.5;flex:1}
+  .hook .connect{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--text-faint);border:1px dashed var(--hair-strong);border-radius:3px;padding:6px 0;text-align:center;letter-spacing:0.05em;cursor:default}
+  .hook .connect.on{color:var(--green);border-style:solid;border-color:#2c4738}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--hair);padding:30px 0 50px;margin-top:10px}
+  .foot-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:30px}
+  .foot-note h4{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brass);margin-bottom:10px;font-weight:600}
+  .foot-note p{font-size:12.5px;color:var(--text-dim);line-height:1.65;margin-bottom:8px}
+  .foot-note code{font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:var(--text);background:var(--raised);padding:1px 5px;border-radius:2px}
+  .built{font-size:11.5px;color:var(--text-faint);margin-top:24px;letter-spacing:0.02em;text-align:center;border-top:1px solid var(--hair);padding-top:20px}
+
+  @media (max-width:760px){
+    .wrap{padding:0 18px}
+    .module h1{font-size:34px}
+    .pgrid{grid-template-columns:1fr}
+    .dk-top{grid-template-columns:1fr}
+    .stamp{justify-self:start;transform:none}
+    .hooks{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .document{padding:24px 22px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <div class="brandblock">
+      <div class="fed">
+        <span class="fed-mark">Fed10</span>
+        <span class="fed-sub">capability</span>
+      </div>
+      <div class="divider-v"></div>
+      <div class="module">
+        <h1>Docket</h1>
+        <div class="tag">Federal rulemaking, watched and answered.</div>
+      </div>
+    </div>
+    <div class="status">
+      <span class="pulse"></span>
+      <span class="mono">Monitoring <b>1,247</b> active dockets · <b>14</b> agencies</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== CLIENT PROFILE ===== -->
+  <section>
+    <div class="eyebrow">
+      <span class="num">01</span>
+      <h2>Who we're protecting</h2>
+      <span class="line"></span>
+      <span class="meta">Matching context</span>
+    </div>
+
+    <div class="profile">
+      <div class="profile-inner">
+        <div class="profile-head">
+          <span class="who" id="who-label">Client profile · on file</span>
+          <button class="edit-btn" id="editToggle" onclick="toggleEdit()">Edit profile</button>
+        </div>
+
+        <!-- read view -->
+        <div class="pgrid" id="profileRead">
+          <div class="field"><label>Company</label><div class="val" data-f="company"></div></div>
+          <div class="field"><label>Industry</label><div class="val" data-f="industry"></div></div>
+          <div class="field full"><label>What they do</label><div class="val" data-f="model"></div></div>
+          <div class="field full"><label>Regulatory exposure</label><div class="val" data-f="exposure"></div></div>
+        </div>
+
+        <!-- edit view -->
+        <div class="pgrid hidden" id="profileEdit">
+          <div class="field"><label>Company</label><input id="in-company"></div>
+          <div class="field"><label>Industry</label><input id="in-industry"></div>
+          <div class="field full"><label>What they do</label><textarea id="in-model" rows="2"></textarea></div>
+          <div class="field full"><label>Regulatory exposure</label><textarea id="in-exposure" rows="2"></textarea></div>
+          <div class="field full"><button class="btn btn-primary" onclick="saveProfile()">Save profile</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DOCKET FEED ===== -->
+  <section class="sec-rule">
+    <div class="eyebrow">
+      <span class="num">02</span>
+      <h2>Open comment windows</h2>
+      <span class="line"></span>
+      <span class="meta" id="feedMeta">5 rulemakings · sample feed</span>
+    </div>
+    <div class="feed" id="feed"></div>
+  </section>
+
+  <!-- ===== FED10 INTEGRATION ===== -->
+  <section class="sec-rule">
+    <div class="integ">
+      <span class="integ-tag">Integration surface</span>
+      <h3>Where this bolts into Fed10</h3>
+      <p class="lead">Docket runs the same impact-based reasoning Fed10 already applies to legislation — just pointed at agency rulemaking instead of bills. These are the seams where it joins the existing platform rather than sitting beside it.</p>
+      <div class="hooks">
+        <div class="hook">
+          <span class="hk-icon">→ profiles</span>
+          <h4>Pull client roster</h4>
+          <p>Replace the manual profile above with Fed10's existing client records. One profile drives both legislative and regulatory matching.</p>
+          <div class="connect" id="hk1" onclick="fakeConnect('hk1')">Connect roster</div>
+        </div>
+        <div class="hook">
+          <span class="hk-icon">→ dashboard</span>
+          <h4>Unified threat feed</h4>
+          <p>Push regulatory flags into the same queue as bill threats, so a client sees statute and rule risk in one place.</p>
+          <div class="connect" id="hk2" onclick="fakeConnect('hk2')">Connect feed</div>
+        </div>
+        <div class="hook">
+          <span class="hk-icon">→ cross-ref</span>
+          <h4>Link rule to statute</h4>
+          <p>Tie each NPRM back to the authorizing law Fed10 is already tracking — the bill that created the agency's mandate.</p>
+          <div class="connect" id="hk3" onclick="fakeConnect('hk3')">Connect graph</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-note">
+        <h4>What's live vs. sample</h4>
+        <p><strong style="color:var(--text)">Live:</strong> the impact analysis and comment drafting are real — each runs an LLM reasoning pass against the profile above when you click.</p>
+        <p><strong style="color:var(--text)">Sample:</strong> the docket feed is seeded with real, representative 2026 rulemakings. In production it polls the <code>regulations.gov</code> v4 API for open comment periods on a schedule (the ingestion code mirrors the Congress.gov pattern: filter dockets by <code>commentEndDate</code>, queue matches, re-check daily).</p>
+      </div>
+      <div class="foot-note">
+        <h4>Deploying it for real</h4>
+        <p>Drop this file on any static host. Two production wires:</p>
+        <p>1 · a <code>regulations.gov</code> API key for the live feed.</p>
+        <p>2 · route the LLM calls through a backend that holds the Anthropic key, rather than the in-app demo path used here.</p>
+      </div>
+    </div>
+    <div class="built">Built as a Fed10 module proposal — notice-and-comment, automated.</div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   STATE
+   ========================================================= */
+const TODAY = new Date('2026-06-15T12:00:00Z');
+
+let profile = {
+  company: "Northwind AI",
+  industry: "Enterprise AI / ML software vendor",
+  model: "Sells machine-learning tools to hospitals (clinical triage), banks (credit-risk scoring), and call centers. Models train on customer data; outputs drive consequential decisions about people.",
+  exposure: "Automated decision-making, consumer data handling, AI in healthcare and lending, algorithmic transparency, voice/text automation."
+};
+
+/* Sample feed — real, representative 2026 rulemakings.
+   In production each object is one record from regulations.gov v4 /dockets. */
+const DOCKETS = [
+  {
+    id:"ftc1", agency:"FTC", agClass:"ag-ftc",
+    docket:"FTC-2026-0042", cfr:"16 CFR Part 465",
+    title:"Commercial Surveillance and Automated Decision-Making Practices",
+    summary:"Proposes disclosure and opt-out duties for firms that use automated systems to make or materially inform consequential decisions about consumers, plus data-minimization requirements for model training.",
+    close:"2026-06-22"
+  },
+  {
+    id:"fcc1", agency:"FCC", agClass:"ag-fcc",
+    docket:"CG Docket 23-362", cfr:"47 CFR Part 64",
+    title:"Disclosure of AI-Generated Voice and Text in Calls and Messages",
+    summary:"Would require clear disclosure when an artificial or prerecorded AI-generated voice or AI-composed text is used to contact consumers, with prior consent obligations for AI-driven outreach.",
+    close:"2026-06-29"
+  },
+  {
+    id:"sec1", agency:"SEC", agClass:"ag-sec",
+    docket:"SEC-2026-0118", cfr:"17 CFR Parts 240, 275",
+    title:"Conflicts of Interest in the Use of Predictive Data Analytics",
+    summary:"Targets firms whose technologies optimize for outcomes that may place the firm's interest ahead of the investor's; would require identification, evaluation, and neutralization of such conflicts.",
+    close:"2026-07-06"
+  },
+  {
+    id:"fda1", agency:"FDA", agClass:"ag-fda",
+    docket:"FDA-2026-D-0900", cfr:"21 CFR Part 814",
+    title:"Marketing Submission Recommendations for AI-Enabled Device Software",
+    summary:"Draft guidance on predetermined change control plans for AI/ML-enabled medical device software, including documentation of training data, performance monitoring, and post-market model updates.",
+    close:"2026-07-20"
+  },
+  {
+    id:"cfpb1", agency:"CFPB", agClass:"ag-cfpb",
+    docket:"CFPB-2026-0011", cfr:"12 CFR Part 1026",
+    title:"Quality Control Standards for Automated Valuation Models",
+    summary:"Sets standards for the use of automated valuation and decisioning models in credit, requiring testing for accuracy, protection against data manipulation, and controls against discriminatory outcomes.",
+    close:"2026-08-03"
+  }
+];
+
+const state = {}; // per-docket: {analysis, comment, loadingA, loadingC}
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+function renderProfile(){
+  document.querySelectorAll('[data-f]').forEach(el=>{
+    el.textContent = profile[el.dataset.f];
+  });
+}
+function toggleEdit(){
+  const read=document.getElementById('profileRead');
+  const edit=document.getElementById('profileEdit');
+  const btn=document.getElementById('editToggle');
+  const editing=!edit.classList.contains('hidden');
+  if(editing){ edit.classList.add('hidden'); read.classList.remove('hidden'); btn.textContent='Edit profile'; }
+  else{
+    document.getElementById('in-company').value=profile.company;
+    document.getElementById('in-industry').value=profile.industry;
+    document.getElementById('in-model').value=profile.model;
+    document.getElementById('in-exposure').value=profile.exposure;
+    edit.classList.remove('hidden'); read.classList.add('hidden'); btn.textContent='Cancel';
+  }
+}
+function saveProfile(){
+  profile={
+    company:document.getElementById('in-company').value.trim()||"(unnamed client)",
+    industry:document.getElementById('in-industry').value.trim(),
+    model:document.getElementById('in-model').value.trim(),
+    exposure:document.getElementById('in-exposure').value.trim()
+  };
+  renderProfile();
+  // analyses are now stale — clear them
+  for(const k in state){ delete state[k]; }
+  renderFeed();
+  toggleEdit();
+}
+
+/* =========================================================
+   FEED
+   ========================================================= */
+function daysLeft(closeStr){
+  const close=new Date(closeStr+'T23:59:59Z');
+  return Math.max(0, Math.round((close-TODAY)/86400000));
+}
+function fmtDate(s){
+  const d=new Date(s+'T12:00:00Z');
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'}).toUpperCase();
+}
+function stampClass(d){ if(d<=8)return'soon'; if(d>=40)return'calm'; return''; }
+
+function renderFeed(){
+  const feed=document.getElementById('feed');
+  feed.innerHTML='';
+  DOCKETS.forEach(dk=>{
+    const d=daysLeft(dk.close);
+    const st=state[dk.id]||{};
+    const flagged = st.analysis && st.analysis.severity && ['high','critical','moderate'].includes(st.analysis.severity);
+    const el=document.createElement('div');
+    el.className='docket'+(flagged?' flagged':'');
+    el.innerHTML=`
+      <div class="dk-top">
+        <div class="dk-main">
+          <div class="agency-row">
+            <span class="agency ${dk.agClass}">${dk.agency}</span>
+            <span class="docket-id">${dk.docket}</span>
+            <span class="dot-sep">·</span>
+            <span class="cfr">${dk.cfr}</span>
+          </div>
+          <div class="dk-title">${dk.title}</div>
+          <div class="dk-sum">${dk.summary}</div>
+        </div>
+        <div class="stamp ${stampClass(d)}">
+          <div class="lbl">Comment closes</div>
+          <div class="days">${d}</div>
+          <div class="unit">${d===1?'day':'days'}</div>
+          <div class="date">${fmtDate(dk.close)}</div>
+        </div>
+      </div>
+      <div class="analysis ${st.analysis||st.loadingA?'open':''}" id="an-${dk.id}">${renderAnalysis(dk.id)}</div>
+      <div class="dk-act">
+        <span class="hint">${st.analysis?'Impact assessed against '+escapeHtml(profile.company):'Run impact analysis against the client profile'}</span>
+        <div style="display:flex;gap:10px">
+          <button class="btn" onclick="analyze('${dk.id}')" ${st.loadingA?'disabled':''}>${st.analysis?'Re-analyze':'Analyze impact'}</button>
+          ${st.analysis&&st.analysis.affected?`<button class="btn btn-primary" onclick="draft('${dk.id}')" ${st.loadingC?'disabled':''}>${st.comment?'Redraft comment':'Draft public comment'}</button>`:''}
+        </div>
+      </div>
+      <div id="doc-${dk.id}">${renderDoc(dk.id)}</div>
+    `;
+    feed.appendChild(el);
+  });
+}
+
+function renderAnalysis(id){
+  const st=state[id]||{};
+  if(st.loadingA) return `<div class="loading"><span class="spin"></span> Reasoning about impact on ${escapeHtml(profile.company)}…</div>`;
+  if(st.errorA) return `<div class="err">${escapeHtml(st.errorA)}</div>`;
+  if(!st.analysis) return '';
+  const a=st.analysis;
+  const sev=(a.severity||'none').toLowerCase();
+  let reasons=(a.reasons||[]).map(r=>`<li>${escapeHtml(r)}</li>`).join('');
+  return `
+    <div class="verdict">
+      <span class="sev sev-${sev}">${sev}</span>
+      <span class="vline">${escapeHtml(a.summary||'')}</span>
+    </div>
+    ${reasons?`<div class="an-block"><h4>Why it reaches this client</h4><ul class="an-reasons">${reasons}</ul></div>`:''}
+    ${a.provision?`<div class="an-block"><h4>Provision of concern</h4><div class="provision"><span class="mono">${escapeHtml(a.provision_cite||'')}</span>${escapeHtml(a.provision)}</div></div>`:''}
+  `;
+}
+
+function renderDoc(id){
+  const st=state[id]||{};
+  if(st.loadingC) return `<div class="doc-wrap" style="padding:0 24px 22px"><div class="loading"><span class="spin"></span> Drafting a public comment for the record…</div></div>`;
+  if(st.errorC) return `<div class="doc-wrap" style="padding:0 24px 22px"><div class="err">${escapeHtml(st.errorC)}</div></div>`;
+  if(!st.comment) return '';
+  const dk=DOCKETS.find(x=>x.id===id);
+  return `
+    <div class="doc-wrap" style="padding:0 24px 24px">
+      <div class="document">
+        <div class="doc-hd">
+          <div class="re">
+            <b>Re:</b> ${escapeHtml(dk.title)}<br>
+            <b>Docket:</b> ${dk.docket} &nbsp; · &nbsp; <b>${dk.cfr}</b><br>
+            <b>Submitted:</b> ${escapeHtml(profile.company)} &nbsp; · &nbsp; via regulations.gov
+          </div>
+        </div>
+        <div class="doc-body">${st.comment}</div>
+        <div class="doc-acts">
+          <button class="btn" onclick="copyDoc('${id}')">Copy text</button>
+          <button class="btn" onclick="downloadDoc('${id}')">Download .txt</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* =========================================================
+   LLM CALLS (Claude in the artifact)
+   ========================================================= */
+async function callClaude(system, user, maxTokens){
+  const res = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      model:"claude-sonnet-4-6",
+      max_tokens:maxTokens||1000,
+      system:system,
+      messages:[{role:"user",content:user}]
+    })
+  });
+  if(!res.ok) throw new Error("Reasoning service returned "+res.status+". If this is deployed outside the demo, route the call through a backend that holds the API key.");
+  const data=await res.json();
+  return data.content.filter(b=>b.type==="text").map(b=>b.text).join("\n").trim();
+}
+
+function profileText(){
+  return `Company: ${profile.company}
+Industry: ${profile.industry}
+What they do: ${profile.model}
+Known regulatory exposure: ${profile.exposure}`;
+}
+
+async function analyze(id){
+  const dk=DOCKETS.find(x=>x.id===id);
+  state[id]=Object.assign({}, state[id], {loadingA:true, errorA:null});
+  renderFeed();
+  const system=`You are a regulatory analyst for a government-affairs intelligence platform. You assess whether a specific federal rulemaking creates material risk for a specific company, using impact-based reasoning — not keyword matching. A rule can matter even if it never names the company's industry, if its obligations reach how the company operates. Respond with ONLY a JSON object, no markdown, no preamble. Schema:
+{"affected": boolean, "severity": "none"|"low"|"moderate"|"high"|"critical", "summary": "one sentence verdict, plain English", "reasons": ["2-4 specific reasons tied to THIS company's actual business"], "provision": "the specific obligation or restriction in the rule that creates the risk, one sentence", "provision_cite": "a short reference like the CFR part or 'proposed § 465.3'"}`;
+  const user=`RULEMAKING
+Agency: ${dk.agency}
+Title: ${dk.title}
+Docket: ${dk.docket} (${dk.cfr})
+Summary: ${dk.summary}
+
+CLIENT
+${profileText()}
+
+Assess impact. JSON only.`;
+  try{
+    let raw=await callClaude(system,user,800);
+    raw=raw.replace(/```json/gi,'').replace(/```/g,'').trim();
+    const a=JSON.parse(raw);
+    state[id]={analysis:a, loadingA:false};
+  }catch(e){
+    state[id]={loadingA:false, errorA:e.message||"Could not complete the analysis."};
+  }
+  renderFeed();
+}
+
+async function draft(id){
+  const dk=DOCKETS.find(x=>x.id===id);
+  const a=state[id].analysis;
+  state[id]=Object.assign({}, state[id], {loadingC:true, errorC:null});
+  renderFeed();
+  const system=`You draft formal public comments submitted to U.S. federal agencies during notice-and-comment rulemaking. Write in the register of a serious regulatory comment: measured, specific, citing the rule's provisions, never hyperbolic. The goal is to shape the final rule in the commenter's favor while appearing reasonable and public-minded.
+
+Return clean HTML using only these tags: <h5> for section headings, <p> for paragraphs, <strong>, <em>. No other tags, no markdown, no document title (the header is added separately). Use exactly these four sections in order:
+<h5>Statement of interest</h5> — who the commenter is and why this rule reaches them, 1 short paragraph.
+<h5>Specific concerns</h5> — 2-3 paragraphs on concrete problems with the proposed rule as applied to this commenter, referencing the provision.
+<h5>Proposed alternative language</h5> — a concrete suggested amendment or narrowing, phrased as regulatory text where possible (e.g. "strike … and insert …", or a safe-harbor definition).
+<h5>Conclusion</h5> — 1 short paragraph, constructive close.
+Keep the whole comment tight — roughly 280-360 words.`;
+  const user=`RULEMAKING
+Agency: ${dk.agency}
+Title: ${dk.title}
+Docket: ${dk.docket} (${dk.cfr})
+Summary: ${dk.summary}
+
+COMMENTER
+${profileText()}
+
+PRIOR IMPACT ANALYSIS
+Verdict: ${a.summary}
+Provision of concern: ${a.provision} (${a.provision_cite})
+Reasons it matters: ${(a.reasons||[]).join('; ')}
+
+Draft the public comment as specified.`;
+  try{
+    let html=await callClaude(system,user,1000);
+    html=html.replace(/```html/gi,'').replace(/```/g,'').trim();
+    state[id].comment=html;
+    state[id].loadingC=false;
+  }catch(e){
+    state[id].loadingC=false;
+    state[id].errorC=e.message||"Could not draft the comment.";
+  }
+  renderFeed();
+}
+
+/* =========================================================
+   DOC ACTIONS
+   ========================================================= */
+function plainText(id){
+  const dk=DOCKETS.find(x=>x.id===id);
+  const tmp=document.createElement('div');
+  tmp.innerHTML=state[id].comment;
+  let out=`Re: ${dk.title}\nDocket: ${dk.docket} (${dk.cfr})\nSubmitted by: ${profile.company}\n\n`;
+  tmp.childNodes.forEach(n=>{
+    if(n.tagName==='H5') out+='\n'+n.textContent.toUpperCase()+'\n';
+    else if(n.tagName==='P') out+=n.textContent+'\n';
+  });
+  return out.trim();
+}
+function copyDoc(id){
+  navigator.clipboard.writeText(plainText(id)).then(()=>{
+    event.target.textContent='Copied';
+    setTimeout(()=>{event.target.textContent='Copy text';},1500);
+  });
+}
+function downloadDoc(id){
+  const dk=DOCKETS.find(x=>x.id===id);
+  const blob=new Blob([plainText(id)],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`comment_${dk.docket}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* =========================================================
+   MISC
+   ========================================================= */
+function fakeConnect(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('on');
+  el.textContent=el.classList.contains('on')?'Connected ✓':el.textContent.replace(' ✓','').replace('Connected','Connect');
+  if(!el.classList.contains('on')){
+    const labels={hk1:'Connect roster',hk2:'Connect feed',hk3:'Connect graph'};
+    el.textContent=labels[id];
+  }
+}
+function escapeHtml(s){
+  return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+renderProfile();
+renderFeed();
+</script>
+</body>
+</html>
