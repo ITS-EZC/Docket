@@ -56,14 +56,14 @@ against the new context — the matching is live, not cached. Each docket is sta
 Impact-based reasoning, not keyword matching. The LLM identifies the specific
 provision of concern and why it reaches this client's actual business.
 
-![Docket feed with countdown stamps and agency tags](assets/Comment.png)
+![Docket feed with countdown stamps and agency tags](assets/Analysis.png)
 
 ---
 
 **3 · Comment Draft**
 The drafted comment renders as a document ready to copy or download. 
 
-![Impact analysis panel showing severity verdict and reasons](assets/Analysis.png)
+![Impact analysis panel showing severity verdict and reasons](assets/Comment.png)
 
 ---
 
