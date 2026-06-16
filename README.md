@@ -41,7 +41,41 @@ Three stages, mirroring the legislative pipeline Fed10 already runs:
 **3 · Draft.** When a rule is flagged, a second LLM pass drafts a formal public comment — statement of interest, specific concerns tied to the provision, proposed alternative regulatory language, and a constructive conclusion — in the measured register agencies actually respond to. The draft renders as a document you can copy or download for filing.
  
 ---
- 
+
+## In action
+
+**1 · The client profile**
+Every analysis runs against this. Edit the company and the reasoning re-runs
+against the new context — the matching is live, not cached.
+
+![Client profile showing regulatory exposure fields](assets/ClientProfile.png)
+
+---
+
+**2 · Open comment windows**
+Each docket is stamped with days to deadline. The closing window is the whole
+value prop — the stamp turns red as it counts down.
+
+![Docket feed with countdown stamps and agency tags](assets/Comment.png)
+
+---
+
+**3 · Impact analysis**
+Impact-based reasoning, not keyword matching. The LLM identifies the specific
+provision of concern and why it reaches this client's actual business.
+
+![Impact analysis panel showing severity verdict and reasons](assets/Analysis.png)
+
+---
+
+**4 · Comment draft + Fed10 integration surface**
+The drafted comment renders as a document ready to copy or download. The
+integration seams below it are where this joins the existing Fed10 platform.
+
+![Comment draft on parchment background with Fed10 integration hooks](Integration.png)
+
+---
+
 ## Features
  
 - **Editable client profile** — drives all matching. Change the company and every analysis re-runs against the new context.
