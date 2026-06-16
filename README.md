@@ -70,7 +70,7 @@ The drafted comment renders as a document ready to copy or download.
 **4 · Fed10 integration surface**
 The integration seams below it are where this joins the existing Fed10 platform.
 
-![Comment draft on parchment background with Fed10 integration hooks](Integration.png)
+![Comment draft on parchment background with Fed10 integration hooks](assets/Integration.png)
 
 ---
 
