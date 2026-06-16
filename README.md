@@ -44,33 +44,31 @@ Three stages, mirroring the legislative pipeline Fed10 already runs:
 
 ## In action
 
-**1 · The client profile**
+**1 · The client profile + open comment windows**
 Every analysis runs against this. Edit the company and the reasoning re-runs
-against the new context — the matching is live, not cached.
+against the new context — the matching is live, not cached. Each docket is stamped with days to deadline.
 
 ![Client profile showing regulatory exposure fields](assets/ClientProfile.png)
 
 ---
 
-**2 · Open comment windows**
-Each docket is stamped with days to deadline. The closing window is the whole
-value prop — the stamp turns red as it counts down.
+**2 · Analysis**
+Impact-based reasoning, not keyword matching. The LLM identifies the specific
+provision of concern and why it reaches this client's actual business.
 
 ![Docket feed with countdown stamps and agency tags](assets/Comment.png)
 
 ---
 
-**3 · Impact analysis**
-Impact-based reasoning, not keyword matching. The LLM identifies the specific
-provision of concern and why it reaches this client's actual business.
+**3 · Comment Draft**
+The drafted comment renders as a document ready to copy or download. 
 
 ![Impact analysis panel showing severity verdict and reasons](assets/Analysis.png)
 
 ---
 
-**4 · Comment draft + Fed10 integration surface**
-The drafted comment renders as a document ready to copy or download. The
-integration seams below it are where this joins the existing Fed10 platform.
+**4 · Fed10 integration surface**
+The integration seams below it are where this joins the existing Fed10 platform.
 
 ![Comment draft on parchment background with Fed10 integration hooks](Integration.png)
 
